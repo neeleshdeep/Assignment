@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* CSS styles for containers and items */
+    .container {
+      display: inline-block;
+      width: 200px;
+      height: 300px;
+      border: 1px solid black;
+      padding: 10px;
+      margin: 10px;
+    }
+
+    .item {
+      width: 100px;
+      height: 100px;
+      background-color: #f0f0f0;
+      border: 1px solid #999;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 5px;
+    }
+
+    .highlight {
+      background-color: blue;
+    }
+  </style>
+</head>
+<body>
+ 
+  <div class="container" id="source-container">
+  
+    <div class="item" draggable="true" ondragstart="drag(event)">Myself  Neelesh deep</div>
+    <div class="item" draggable="true" ondragstart="drag(event)">Btech 2023</div>
+    <div class="item" draggable="true" ondragstart="drag(event)">Information Technology</div>
+  </div>
+  
+  <div class="container" id="target-container" ondragover="allowDrop(event)" ondrop="drop(event)" ondragleave="dragLeave(event)"></div>
+
+  <button onclick="resetContainers()">Reset</button>
+
+  <script>
+    function drag(event) {
+      // Set the data being transferred during the drag operation
+      event.dataTransfer.setData('text/plain', event.target.innerHTML);
+
+      // Add the highlight class to provide visual feedback
+      event.target.classList.add('highlight');
+    }
+
+    function dragLeave(event) {
+      // Remove the highlight class when the user leaves the container while dragging
+      event.target.classList.remove('highlight');
+    }
+
+    function allowDrop(event) {
+  
+      event.preventDefault();
+      event.target.classList.add('highlight');
+    }
+
+    function drop(event) {
+      // Prevent the default action
+      event.preventDefault();
+
+      
+      var data = event.dataTransfer.getData('text/plain');
+
+      event.target.innerHTML += '<div class="item">' + data + '</div>';
+      event.target.classList.remove('highlight');
+
+      //message
+      alert('Item dropped succeess');
+    }
+
+    function resetContainers() {
+      // Get the source and target containers
+      var sourceContainer = document.getElementById('source-container');
+      var targetContainer = document.getElementById('target-container');
+
+      // Reset the content of both containers to their initial state
+      sourceContainer.innerHTML = `
+        <div class="item" draggable="true" ondragstart="drag(event)">Item 1</div>
+        <div class="item" draggable="true" ondragstart="drag(event)">Item 2</div>
+        <div class="item" draggable="true" ondragstart="drag(event)">Item 3</div>
+      `;
+
+      targetContainer.innerHTML = '';
+    }
+  </script>
+</body>
+</html>
